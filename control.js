@@ -22,6 +22,7 @@ const btnRepeat = $(".taskbar--repeat");
 const songList = $(".list-song");
 const playList = $(".playlist");
 const btnCrossBar = $(".btn-cross-bar");
+const toolbar = $(".toolbar");
 
 const app = {
     lengthSongs: 0,
@@ -65,7 +66,7 @@ const app = {
         },
         {
             name: "Ylang Ylang",
-            singer: "MCK",
+            singer: "FKJ (((O)))",
             path: "./Music/ylangylang.mp3",
             image: "./Image/ylang.jpg"
         }
@@ -195,8 +196,14 @@ const app = {
         // Xử lý hành vi show playlist
         btnCrossBar.onclick = function(){
             _this.isShowPlaylist = !_this.isShowPlaylist;
-            if(_this.isShowPlaylist) playList.style.height = '80vh';
-            else playList.style.height = '25vh';
+            if(_this.isShowPlaylist) {
+                playList.style.height = '80%';
+                toolbar.style.opacity = 1;
+            }
+            else{
+                playList.style.height = '25%';
+                toolbar.style.opacity = 0;
+            } 
         }
     },
     loadCurrentSong(){
