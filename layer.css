@@ -1,0 +1,309 @@
+:root{
+    --active: #ff00bb;
+}
+html{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 62.5%;
+    box-sizing: border-box;
+    color: #fff;
+    line-height: 1.6rem;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #bebbbb;
+}
+
+/* Dashboard */
+
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    font-size: 3rem;
+}
+.btn + .btn{
+    margin-left: 5px;
+}
+.btn:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+.player{
+    position: relative;
+    background-image: url('./Image/background.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: 600px;
+    height: 100vh;
+    /* overflow-x: hidden; */
+    margin: 0 auto;
+    z-index: 1;
+}
+
+/* Control */
+
+.dashboard{
+    position: relative;
+    padding: 30px;
+    z-index: 1;
+
+}
+.dashboard__main{
+    display: flex;
+    margin-bottom: 50px;
+}
+.toolbox{
+    width: 90%;
+}
+.toolbox--tiny{
+    font-size: 3.2rem;
+    font-weight: bold;
+}
+.toolbox--tiny:hover{
+    opacity: 0.7;
+    cursor: pointer;
+}
+.toolbox__state{
+    background-color: #fff;
+    color: #000;
+    font-size: 2.8rem;
+    padding: 0 20px;
+    border-radius: 20px;
+    width: max-content;
+    text-align: center;
+    margin-left: 10px;
+    line-height: 4.5rem;
+    user-select: none;
+}
+.song-infor__image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 20rem;
+    height: 20rem;
+    margin: 35px 0;
+}
+.song-infor__title{
+    font-size: 3.2rem;
+    font-weight: bold;
+    line-height: 3.6rem;
+    margin: 0;
+}
+.song-infor__author{
+    color: #ebebeb;
+    font-size: 2rem;
+    font-weight: lighter;
+}
+.toolbox__driver{
+    display: flex;
+    margin-top: 30px;
+}
+.toolbox__driver--toggle-play{
+    background-color: #fff;
+    color: #000;
+}
+.toolbox__driver--forward,
+.toolbox__driver--backward{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.player .icon-pause{
+    display: none;
+}
+.player.playing .icon-pause{
+    display: inline-block;
+}
+.player.playing .icon-play{
+    display: none;
+}
+
+/* Option */
+
+.taskbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 3.2rem;
+    font-weight: bold;
+}
+.taskbox__speaker{
+    font-size: 3.2rem;
+    font-weight: bold;
+}
+.taskbox__speaker:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+.taskbox__option{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.taskbox__option > div:nth-of-type(n){
+    margin: 20px 0;
+}
+.taskbox__option > div:nth-of-type(n):hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+.taskbox__option--toggle-heart .icon-heart{
+    display: none;
+}
+.taskbox__option--toggle-heart.active .icon-heart{
+    display: inline-block;
+    color: var(--active);
+}
+.taskbox__option--toggle-heart.active .icon-non-heart{
+    display: none;
+}
+
+/* Progress */
+
+.progress-bar{
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    margin: 0 20px;
+}
+#progress{
+    position: absolute;
+    top: 0;
+    left: 0;
+    appearance: none;
+    width: 100%;
+    height: 0.8rem;
+    margin: 0;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+}
+#progress::-webkit-slider-thumb{
+    appearance: none;
+    pointer-events: all;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+}
+progress{
+    pointer-events: all;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.8rem;
+    background-color: #fff;
+    z-index: -1;
+}
+progress::-webkit-progress-value{
+    background-color: #fff;
+}
+progress::-webkit-progress-bar{
+    background-color: #424141;
+}
+
+/* Playlist */
+
+/* 
+   Note:
+   - index có 2 giá trị là 1 và -1, nên set index cho thẻ cha trước.
+   - position để cho thẻ là con của của thẻ cha thì phải setup position cho cả thẻ ông nội, ông cố,... nữa.
+*/
+.playlist{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #212121;
+    border-top-left-radius: 40px; 
+    border-top-right-radius: 40px;
+    padding-bottom: 30px;
+    height: 25vh;
+    z-index: 1;
+    overflow-y: hidden;
+    transition: height .6s linear;
+}
+.btn-cross-bar{
+    width: 100%;
+    text-align: center;
+    font-size: 3rem;
+    padding-bottom: 10px;
+}
+.btn-cross-bar:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.taskbar{
+    margin: 5px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+.taskbar > div:nth-child(n){
+    font-size: 2.4rem;
+    margin: 0 15px;
+}
+.taskbar > div:nth-child(n):hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+.taskbar--repeat.active{
+    color: var(--active);
+}
+.taskbar--random.active{
+    color: var(--active);
+}
+.list-song{
+    width: 100%;
+    height: 69%;
+    padding: 15px 0;
+    overflow-y: scroll;
+}
+/* Cách ẩn thanh scroll tạo ra bơi overflow */
+.list-song::-webkit-scrollbar{
+    display: none;
+}
+.song{
+    display: flex;
+    align-items: center;
+    margin: 20px 30px;
+    transition: background-color .5s ease;
+}
+.song.active{
+    background-color: #333 !important;
+}
+.song:hover{
+    background-color: #333;
+    cursor: pointer;
+}
+.song__thumb{
+    width: 8rem;
+    height: 8rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.song__body{
+    margin-left: 20px;
+}
+.body__title{
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin: 0;
+}
+.body__author{
+    color: #ebebeb;
+    font-size: 1.4rem;
+    font-weight: lighter;
+}
+.toolbar{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 14% 30px 0;
+}
