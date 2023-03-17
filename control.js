@@ -1,4 +1,4 @@
-// const api = 'http://localhost:3000/song';
+const api = 'http://localhost:3000/songs';
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
@@ -34,42 +34,42 @@ const app = {
     isShowPlaylist: false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     songs: [
-        {
-            name: "Tình yêu chậm trễ",
-            singer: "Monstar",
-            path: "./Music/Tinhyeuchamtre.mp3",
-            image: "./Image/image1.jpg"
-        },
-        {
-            name: "Tháng năm",
-            singer: "Sobbin",
-            path: "./Music/Thangnam.mp3",
-            image: "./Image/image3.jpg"
-        },
-        {
-            name: "Kìa bóng dáng ai",
-            singer: "Pháo",
-            path: "./Music/Bongdang.mp3",
-            image: "./Image/image2.jpg"
-        },
-        {
-            name: "Tại vì sao",
-            singer: "MCK",
-            path: "./Music/Taivisao.mp3",
-            image: "./Image/image4.jpg"
-        },
-        {
-            name: "Ok",
-            singer: "Binz",
-            path: "./Music/Ok.mp3",
-            image: "./Image/Ok.jpg"
-        },
-        {
-            name: "Ylang Ylang",
-            singer: "FKJ (((O)))",
-            path: "./Music/ylangylang.mp3",
-            image: "./Image/ylang.jpg"
-        }
+    //     {
+    //         name: "Tình yêu chậm trễ",
+    //         singer: "Monstar",
+    //         path: "./Music/Tinhyeuchamtre.mp3",
+    //         image: "./Image/image1.jpg"
+    //     },
+    //     {
+    //         name: "Tháng năm",
+    //         singer: "Sobbin",
+    //         path: "./Music/Thangnam.mp3",
+    //         image: "./Image/image3.jpg"
+    //     },
+    //     {
+    //         name: "Kìa bóng dáng ai",
+    //         singer: "Pháo",
+    //         path: "./Music/Bongdang.mp3",
+    //         image: "./Image/image2.jpg"
+    //     },
+    //     {
+    //         name: "Tại vì sao",
+    //         singer: "MCK",
+    //         path: "./Music/Taivisao.mp3",
+    //         image: "./Image/image4.jpg"
+    //     },
+    //     {
+    //         name: "Ok",
+    //         singer: "Binz",
+    //         path: "./Music/Ok.mp3",
+    //         image: "./Image/Ok.jpg"
+    //     },
+    //     {
+    //         name: "Ylang Ylang",
+    //         singer: "FKJ (((O)))",
+    //         path: "./Music/ylangylang.mp3",
+    //         image: "./Image/ylang.jpg"
+    //     }
     ],
     setConfig(key, value){
         this.config[key] = value;
@@ -206,6 +206,14 @@ const app = {
             } 
         }
     },
+    getList(callback){
+        fetch(api)
+            .then(response => response.json())
+            .then((songs) => {
+                this.songs.push(...songs);
+            })
+            .then(callback);
+    },
     loadCurrentSong(){
         songImage.style.backgroundImage = `url('${this.currentSong.image}')`;
         songTitle.innerText = this.currentSong.name;
@@ -253,6 +261,11 @@ const app = {
         }, 300);
     },
     start(){
+        this.getList(()=>{
+            this.handles();
+        })
+    },
+    handles(){
         // Gán cấu hình config vào ứng dụng
         this.loadConfig();
         // Định nghĩa thuộc tính cho Object
@@ -268,22 +281,24 @@ const app = {
 };
 
 /** 
- 
-    Mô tả bug: Hàm getList sau khi lấy được data từ sever sau đó thêm các 
-    phần tử của songs cho app.songs và console phần tử nào đó của app.songs 
-    trả về một object nhưng đến khi callback được chạy trong callback chạy
-    console phần tử nào đó của app.songs trả về undefined.
+    Quy luật thứ tự chạy callback:
 
-    function getList(callback){
-        fetch(api)
-            .then(response => response.json())
-            .then((songs) => {
-                app.songs.push(...songs);
-            })
-            .then(callback)
+    function callback(){
+        console.log("Start!")
     }
-    getList(app.start());
+    function func(callback){
+        console.log("Finish!");
+    }
 
+    Trường hợp 1:
+    func(callback()) => khi func được gọi thì callback() thực hiện xong in ra Start! rồi sau đó Finish!
+    tuy nhiên nếu đoạn callback() có bất đồng bộ (setTimeOut, primise, fetch,...) thì finish in ra trước.
+    Trường hợp 2:
+    func(()=>{
+        callback();
+    }) => khi func được gọi thì chỉ in ra Finish! bởi lúc này tham số truyền vào func dc coi là một bản
+    thiết kế của callback vậy. Để thực hiện nó ta phải gọi trong func.
+    
 **/
 app.start();
 // localStorage.removeItem(PLAYER_STORAGE_KEY);
