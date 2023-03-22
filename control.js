@@ -34,42 +34,12 @@ const app = {
     isShowPlaylist: false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     songs: [
-    //     {
-    //         name: "Tình yêu chậm trễ",
-    //         singer: "Monstar",
-    //         path: "./Music/Tinhyeuchamtre.mp3",
-    //         image: "./Image/image1.jpg"
-    //     },
-    //     {
-    //         name: "Tháng năm",
-    //         singer: "Sobbin",
-    //         path: "./Music/Thangnam.mp3",
-    //         image: "./Image/image3.jpg"
-    //     },
-    //     {
-    //         name: "Kìa bóng dáng ai",
-    //         singer: "Pháo",
-    //         path: "./Music/Bongdang.mp3",
-    //         image: "./Image/image2.jpg"
-    //     },
-    //     {
-    //         name: "Tại vì sao",
-    //         singer: "MCK",
-    //         path: "./Music/Taivisao.mp3",
-    //         image: "./Image/image4.jpg"
-    //     },
-    //     {
-    //         name: "Ok",
-    //         singer: "Binz",
-    //         path: "./Music/Ok.mp3",
-    //         image: "./Image/Ok.jpg"
-    //     },
-    //     {
-    //         name: "Ylang Ylang",
-    //         singer: "FKJ (((O)))",
-    //         path: "./Music/ylangylang.mp3",
-    //         image: "./Image/ylang.jpg"
-    //     }
+        {
+            name: "Ylang Ylang",
+            singer: "FKJ (((O)))",
+            path: "./Music/ylangylang.mp3",
+            image: "./Image/ylang.jpg"
+        }
     ],
     setConfig(key, value){
         this.config[key] = value;
@@ -207,12 +177,20 @@ const app = {
         }
     },
     getList(callback){
-        fetch(api)
+        try{
+            fetch(api)
             .then(response => response.json())
             .then((songs) => {
                 this.songs.push(...songs);
             })
-            .then(callback);
+            .then(callback)
+            .catch((error)=>{
+                console.error("Fetch API: ", error);
+                callback();
+            })
+        }catch{
+            console.error("Other error:", error);
+        }
     },
     loadCurrentSong(){
         songImage.style.backgroundImage = `url('${this.currentSong.image}')`;
