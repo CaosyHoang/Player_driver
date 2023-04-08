@@ -275,7 +275,7 @@ const app = {
     func(()=>{
         callback();
     }) => khi func được gọi thì chỉ in ra Finish! bởi lúc này tham số truyền vào func dc coi là một bản
-    thiết kế của callback vậy. Để thực hiện nó ta phải gọi trong func.
+    thiết kế của callback vậy. Để thực hiện nó ta phải gọi nó trong func.
     
 **/
 app.start();
