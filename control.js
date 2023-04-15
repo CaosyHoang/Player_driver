@@ -108,7 +108,7 @@ const app = {
         // Xử lý khi tua
         for(var i=0;i<progress.length;i++){
             progress[i].onchange = function(){
-                this.onmousedown = function(){
+                this.oninput = function(){
                     audio.pause();
                 }
                 const seekTime = this.value * audio.duration / 100;
